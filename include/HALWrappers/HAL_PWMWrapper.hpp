@@ -5,15 +5,16 @@
 #include <array>
 
 #include "main.h"
+
 #include "LowLevelInterfaces/PWM.hpp"
 
-class HAL_ChannelWrapper {
+class HAL_ChannelWrapper : PWMChannel {
 
     public:
 
         HAL_ChannelWrapper();
 
-        PWM_ErrorCode set_duty_cycle(float fraction);
+        virtual PWM_ErrorCode set_duty_cycle(float fraction) override;
     
     private:
         TIM_OC_InitTypeDef raw_channel_struct;
@@ -30,8 +31,8 @@ class HAL_PWMWrapper : public PWM {
         HAL_PWMWrapper(TIM_HandleTypeDef* raw_TIM_handle);
 
         virtual PWM_ErrorCode initialize() override;
-        virtual PWM_ErrorCode set_frequency_kHz(std::int16_t target_frequency) override;
-        virtual PWM_ErrorCode set_duty_cycle(float fraction, std::uint8_t channel_number) override;       
+        virtual PWM_ErrorCode set_frequency_kHz(std::int16_t const target_frequency) override;
+        virtual PWM_ErrorCode set_duty_cycle(float const fraction, std::uint8_t const channel_index) override;      
 
     private:
 

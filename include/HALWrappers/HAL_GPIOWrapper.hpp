@@ -2,8 +2,10 @@
 #define __INCLUDE_HALWRAPPERS_HAL_GPIOWRAPPER
 
 #include <cstdint>
-#include "LowLevelInterfaces/GPIO.hpp"
+
 #include "main.h"
+
+#include "LowLevelInterfaces/GPIO.hpp"
 
 class HAL_GPIO_Wrapper : public GPIO {
 

@@ -1,13 +1,13 @@
 #ifndef __INCLUDE_HALWRAPPERS_HAL_UARTWRAPPER
 #define __INCLUDE_HALWRAPPERS_HAL_UARTWRAPPER
 
-#include <array>
 #include <cstdint>
 
 #include "main.h"
+
 #include "LowLevelInterfaces/UART.hpp"
 
-class HAL_UARTWrapper : public UART<> {
+class HAL_UARTWrapper : public UART {
 
     public:
 
@@ -16,12 +16,15 @@ class HAL_UARTWrapper : public UART<> {
         virtual UART_ErrorCode initialize() override;
 
         virtual UART_ErrorCode send(
-            std::array<std::uint8_t, WRITE_BUFFER_SIZE> const & message
+            std::uint8_t const* const message,
+            std::uint16_t const size_byte,
+            std::uint16_t const timeout_millis
         ) override;
 
         virtual UART_ErrorCode receive(
-            std::array<std::uint8_t, READ_BUFFER_SIZE>& buffer,
-            std::uint16_t timeout_millis
+            std::uint8_t* const buffer,
+            std::uint16_t const size_byte,
+            std::uint16_t const timeout_millis
         ) override;
 
     private:

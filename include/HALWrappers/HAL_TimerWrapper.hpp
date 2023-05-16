@@ -1,8 +1,10 @@
 #ifndef __INCLUDE_HALWRAPPERS_HAL_TIMERWRAPPER
 #define __INCLUDE_HALWRAPPERS_HAL_TIMERWRAPPER
 
-#include "main.h"
 #include <cstdint>
+
+#include "main.h"
+
 #include <LowLevelInterfaces/GlobalTimer.hpp>
 
 class HAL_TimerWrapper : public GlobalTimer {
@@ -11,7 +13,7 @@ class HAL_TimerWrapper : public GlobalTimer {
 
         HAL_TimerWrapper(RTC_HandleTypeDef* raw_RCC_handle);
 
-        virtual void sleep_millis(std::uint32_t time) override;
+        virtual void sleep_millis(std::uint32_t const time) override;
         virtual std::uint32_t get_time_since_boot_millis() override;
 
         virtual GlobalTimer_ErrorCode set_date(Date const & date) override;

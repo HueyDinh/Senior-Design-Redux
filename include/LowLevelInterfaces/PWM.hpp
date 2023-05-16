@@ -4,15 +4,27 @@
 #include <cstdint>
 #include <array>
 
-#include "ErrorHandling/ErrorCodeAndMessage.hpp"
+enum PWM_ErrorCode {
+    SUCCESS,
+    CONFIGURATION_FAILURE,
+    UNKNOWN_FAILURE,
+};
 
 class PWM {
 
     public:
 
         virtual PWM_ErrorCode initialize() = 0;
-        virtual PWM_ErrorCode set_frequency_kHz(std::int16_t target_frequency) = 0;
-        virtual PWM_ErrorCode set_duty_cycle(float fraction, std::uint8_t channel_number) = 0;
+        virtual PWM_ErrorCode set_frequency_kHz(std::int16_t const target_frequency) = 0;
+        virtual PWM_ErrorCode set_duty_cycle(float const fraction, std::uint8_t const channel_index) = 0;
+
+};
+
+class PWMChannel {
+
+    public:
+
+        virtual PWM_ErrorCode set_duty_cycle(float fraction) = 0;
 
 };
 
