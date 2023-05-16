@@ -22,7 +22,14 @@ enum GlobalTimer_ErrorCode {
 
 enum UART_ErrorCode {
     SUCCESS,
+    CONFIGURATION_FAILURE,
     READ_TIMEOUT,
+    UNKNOWN_FAILURE,
+};
+
+enum GPIO_ErrorCode {
+    SUCCESS,
+    CONFIGURATION_FAILURE,
     UNKNOWN_FAILURE,
 };
 
