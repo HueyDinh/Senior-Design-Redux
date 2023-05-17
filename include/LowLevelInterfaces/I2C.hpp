@@ -30,7 +30,7 @@ class I2C {
         virtual I2C_ErrorCode write_register(
             std::uint16_t const slave_address,
             std::uint8_t const target_register,
-            std::uint16_t const* const register_content,
+            std::uint8_t const* const register_content,
             std::uint16_t const size_byte,
             std::uint16_t timeout_millis
         ) = 0;

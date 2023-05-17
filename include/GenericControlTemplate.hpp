@@ -11,11 +11,11 @@ class ControllerInputs {
 
     public:
 
-        ControllerInputs(std::array<InputFunctionPointer, input_dimension>& function_pointer_array):
+        static constexpr std::size_t INPUT_DIMENSION {input_dimension};
+
+        ControllerInputs(std::array<InputFunctionPointer, input_dimension> function_pointer_array):
             function_pointer_array{function_pointer_array}
         {};
-
-        static constexpr std::size_t INPUT_DIMENSION {input_dimension};
 
         void set_pointer(InputFunctionPointer function_pointer, std::size_t index) {
             function_pointer_array[index] = function_pointer;
@@ -35,9 +35,17 @@ class ControllerInputs {
 
             return return_values;
         };
+    
+    private:
 
         std::array<InputFunctionPointer, input_dimension> function_pointer_array;
 
+};
+
+template<std::size_t input_dimension>
+class InputFunctionProvider {
+    public:
+        virtual std::array<InputFunctionPointer, input_dimension> generate_input_function_pointers() = 0;
 };
 
 typedef void (*OutputFunctionPointer) (float);
@@ -47,7 +55,7 @@ class ControllerOutputs {
 
     public:
 
-        ControllerOutputs(std::array<OutputFunctionPointer, output_dimension>& function_pointer_array):
+        ControllerOutputs(std::array<OutputFunctionPointer, output_dimension> function_pointer_array):
             function_pointer_array{function_pointer_array}
         {};
 
@@ -64,13 +72,21 @@ class ControllerOutputs {
         void write_all(std::array<float, output_dimension> values) {
 
             for (int i = 0; i < output_dimension; i++) {
-                function_pointer_array[i](values[i]);
+                write_single_output(i, values[i]);
             }
 
         }
     
+    private:
+
         std::array<OutputFunctionPointer, output_dimension> function_pointer_array;
 
+};
+
+template<std::size_t output_dimension>
+class OuputFunctionProvider {
+    public:
+        virtual std::array<OutputFunctionPointer, output_dimension> generate_output_function_pointers() = 0;
 };
 
 template <std::size_t input_dimension, std::size_t output_dimension>
@@ -80,7 +96,7 @@ class Controller {
 
         typedef std::array<float, output_dimension> (*TransformFunction) (std::array<float, input_dimension>);
 
-        Controller(ControllerInputs<input_dimension>& input, ControllerOutputs<output_dimension>& output):
+        Controller(ControllerInputs<input_dimension>* input, ControllerOutputs<output_dimension>* output):
             input{input},
             output{output}
         {};
@@ -89,8 +105,8 @@ class Controller {
 
     protected:
 
-        ControllerInputs<input_dimension>& input;
-        ControllerOutputs<output_dimension>& output;
+        ControllerInputs<input_dimension>* input;
+        ControllerOutputs<output_dimension>* output;
 
 };
 
